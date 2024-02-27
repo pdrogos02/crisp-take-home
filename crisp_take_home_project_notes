@@ -1,0 +1,92 @@
+crisp_take_home_project
+----------------------------
+due date: 4 PM CST, Friday, 03/01/2024
+	- send Minho as .tar or .zip via Google Drive URL
+
+
+	
+assumptions
+----------------------
+- design row-wise data wrangling system
+	- each row iteration needs to be wrapped in try/catch clauses
+
+- mocking up example data per requirements
+
+- function definitions need docstrings and type hinting
+
+- csv file extensions, only
+	- other file formats are out of scope
+
+- upload library to private, personal github repo
+
+- transformations are configurable with external configuration file
+	- config file is JSON
+	- config file is predominantly composed of arrays in order to take advantage of applying transformation to multiple columns in pandas dataframe
+
+	
+- config file needed
+
+- allowing pandas read_csv() to infer dtypes in dataframe since it is an efficient operation, and performance gains from explicit declaration is negligible
+
+- implement functionality as a python library
+
+- logging flags invalid rows as errors
+	- logging w/ rotating file handler since input data can be quite large
+
+- rotating file handler parameters- maxBytes: 10 MiB, backupCount: 5
+
+- consider big O notation and performance 
+	- specifically iterating through rows
+	- performance testing
+
+
+- input data can be large 
+	- need to consider for design using pandas or csv module
+		- csv: csv module is part of standard python library and fast for smaller data sets, while pandas is an imported dependency that is performant for large data sizes (due to vectorized operations)
+
+		- per requirements data tables can contain large number of rows (and it is reaso ), so pandas is a performant choice
+
+	- instructions:  
+
+- testing of test suite needed
+ 	- unit tests
+ 	- regression tests
+ 	- smoke test
+	- dependencies
+		- unittest		
+		- mock
+
+library needs to be an API w/ config file
+	- flask
+
+- schema data types used need to be consistent w/ JVM types (see instructions for additional detail)
+
+
+- optional
+	- performance testing benchmarks (pandas vs csv)
+
+documentation
+----------------------
+- documentation needed
+	- process flow
+	- sequence diagram
+	- README.md
+	- list of assumptions/simplications
+	- list of next steps if this take-home were a real work project
+
+
+python dependencies
+----------------------
+- logging
+- flask
+- unittest
+- mock
+- csv
+- 
+
+
+
+
+
+testing
+----------------------
