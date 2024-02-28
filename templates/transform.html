@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"></html>
 <head>
     <meta charset="UTF-8">
-    <title>Crisp App Transformation Output</title>
+    <title>Crisp App Transform</title>
 </head>
 <body>
-
-{% for table in tables %}
-            {{titles[loop.index]}}
-            {{ table|safe }}
-{% endfor %}
+    <h2>4) Display transformed data</h2>
+    {% block content %}
+    {{data | safe}}
+    {% endblock %}
 </body>
 </html>

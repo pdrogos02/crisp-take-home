@@ -1,4 +1,4 @@
-import json, logging, sys
+import logging, sys
 
 from logging.handlers import RotatingFileHandler
 
@@ -12,7 +12,7 @@ def create_new_col(raw_df, key, value):
     return raw_df
 
 def get_logger():
-    logger = logging.getLogger('data_wrangling_logger')
+    logger = logging.getLogger('crisp_app_logger')
     
     log_formatter = logging.Formatter("%(asctime)s|%(name)s|%(levelname)s|%(message)s")
     
@@ -20,7 +20,7 @@ def get_logger():
     logger.setLevel(logging.DEBUG)
     
     # 10 MiB = 10.485M bytes (10*1024*1024)
-    rotating_file_handler = RotatingFileHandler('data_wrangling.log', maxBytes=10*1024*1024, backupCount=5)
+    rotating_file_handler = RotatingFileHandler('crisp_app.log', maxBytes=10*1024*1024, backupCount=5)
     
     rotating_file_handler.setFormatter(log_formatter)
     

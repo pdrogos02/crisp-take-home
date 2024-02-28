@@ -4,6 +4,8 @@ due date: 4 PM CST, Friday, 03/01/2024
 	- send Minho as .tar or .zip via Google Drive URL
 
 
+Input data file shape (skipped bad lines) is: {{ shape }}
+
 	
 assumptions
 ----------------------
@@ -23,7 +25,7 @@ assumptions
 	- config file is JSON
 	- config file is predominantly composed of arrays in order to take advantage of applying transformation to multiple columns in pandas dataframe
 
-	
+
 - config file needed
 
 - allowing pandas read_csv() to infer dtypes in dataframe since it is an efficient operation, and performance gains from explicit declaration is negligible
