@@ -2,12 +2,17 @@
 <html lang="en"></html>
 <head>
     <meta charset="UTF-8">
-    <title>Crisp App Transform</title>
+    <title>Crisp App Upload</title>
 </head>
 <body>
-    <h2>4) Display transformed data</h2>
-    {% block content %}
-    {{data | safe}}
-    {% endblock %}
+    <form method="post" enctype="multipart/form-data">
+        <h2>1) Select .csv input data file</h2>
+        <input type="file" name="input_data_file">
+        <h2>2) Select .yml input crisp config file</h2>
+        <input type="file" name="crisp_config_yaml_file">
+        <p></p>
+        <h2>3) Upload both input files for transformation</h2>
+        <input type="submit" value="Upload">
+    </form>
 </body>
 </html>
