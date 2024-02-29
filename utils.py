@@ -2,6 +2,10 @@ import logging, sys
 
 from logging.handlers import RotatingFileHandler
 
+def allowed_file(filename, allowed_extensions_list):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in allowed_extensions_list
+
 def create_new_col(raw_df, key, value):
     if not any(col in value for col in raw_df.columns):
         raw_df[key] = ''.join(map(str, value))

@@ -1,46 +1,62 @@
-import warnings, json, io, yaml, os, csv, shutil
+import io, yaml, os, shutil
 
 import pandas as pd
 from contextlib import redirect_stderr
 from decimal import Decimal
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
-from utils import get_logger, create_new_col
+from utils import get_logger, create_new_col, allowed_file
 
 # from crisp_transformation import execute_transformation
 
-UPLOAD_FOLDER = 'uploads/'
-ALLOWED_EXTENSIONS = {'csv', 'yml', 'yaml'}
+# app = Flask(__name__, template_folder='templates')
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, static_url_path='/static', template_folder='templates')  
 
 app.config.from_object('flask_config')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 
 #TODO add in exception handling for two API endpoints
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
 # TODO: add exception handling
 @app.route('/transform', methods=['GET', 'POST'])
-def upload():
+def transform():
+    # error = None
     if request.method == 'POST':
         # # check if post request uploaded input files
         # if 'input_data_file' not in request.files or 'config_yaml_file' not in request.files:
-        #     flash("Input file upload did not send both files")
+        #     flash('File upload did not send both input files', 'error')
+        #     # return redirect(request.url)
+        #     return redirect(url_for('transform'))
+        #     # error = 'File upload did not send both input files'
+        #     # return redirect(url_for('transform.html'))
+        #     # return render_template('transform.html')
 
-        # input_data_file = request.files["input_data_file"]
+        input_data_file = request.files["input_data_file"]
 
-        # config_yaml_file = request.files["config_yaml_file"]
+        crisp_config_yaml_file = request.files['crisp_config_yaml_file']
+        
+        if input_data_file.filename == '' or crisp_config_yaml_file.filename == '':
+            flash('Two files needed for upload', 'error')
+            
+            return redirect(url_for('transform'))
+                
+        if not allowed_file(input_data_file.filename, ['csv']):
+            flash('Incorrect file extension uploaded. Select new file with extension .csv.', 'error')
 
-        # if input_data_file.filename == '' or config_yaml_file.filename == '':
-        #     flash("Need to upload both files")
+            return redirect(url_for('transform'))
+        
+        if not allowed_file(crisp_config_yaml_file.filename, ['yaml', 'yml']):
+            flash("Incorrect file extension uploaded. Select new file with extension .yml or .yaml.", 'error')
 
+            return redirect(url_for('transform'))
+        
         if os.path.exists(app.config['UPLOAD_FOLDER']):
             # delete UPLOAD FOLDER and its contents from prior request
             shutil.rmtree(app.config['UPLOAD_FOLDER'])
@@ -49,13 +65,12 @@ def upload():
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
             os.makedirs(app.config['UPLOAD_FOLDER'])
 
-        crisp_config_yaml_file = request.files['crisp_config_yaml_file']
 
         crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
 
         crisp_config_yaml_file.save(os.path.join(app.config['UPLOAD_FOLDER'], crisp_config_yaml_filename))
 
-        input_data_file = request.files["input_data_file"]
+       
 
         input_data_filename = secure_filename(input_data_file.filename)
 
@@ -130,19 +145,23 @@ def upload():
             raise e
         
         # return render_template('success.html', crisp_config_yaml_file_name=crisp_config_yaml_filename, input_data_file_name=input_data_filename)
-        return render_template('output.html',  name='Transformed Data', input_data_file_name= input_data_filename, crisp_config_yaml_file_name=crisp_config_yaml_filename, input_data_file_shape=raw_df.shape, data=transformed_df.to_html())
+        # return render_template('output.html',  name='Transformed Data', input_data_file_name= input_data_filename, crisp_config_yaml_file_name=crisp_config_yaml_filename, input_data_file_shape=raw_df.shape, data=transformed_df.to_html())
+    
+        return render_template('success.html')
+    
+        # return redirect(url_for('success'))
     
     else:
         return render_template('transform.html')
     
 
-@app.route('/transform2', methods=['GET', 'POST'])
-def transform():
-    if request.method == 'POST':
-        pass
+# @app.route('/transform2', methods=['GET', 'POST'])
+# def transform():
+#     if request.method == 'POST':
+#         pass
 
-    else:
-        return render_template('transform.html')
+#     else:
+#         return render_template('transform.html')
 
     
 if __name__ == '__main__':

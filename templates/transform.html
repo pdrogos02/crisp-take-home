@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Crisp App Upload</title>
+    <link rel="stylesheet" href='/static/style.css' />
 </head>
 <body>
     <form method="post" enctype="multipart/form-data">
+        <h1>Welcome to the Crisp Transformation App</h1>
         <h2>1) Select .csv input data file</h2>
         <input type="file" name="input_data_file">
         <h2>2) Select .yml input crisp config file</h2>
@@ -14,5 +16,9 @@
         <h2>3) Upload both input files for transformation</h2>
         <input type="submit" value="Upload">
     </form>
+</div>
+{% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="{{category}}">Error: {{ message }}</div>
+{% endfor %}
 </body>
 </html>
