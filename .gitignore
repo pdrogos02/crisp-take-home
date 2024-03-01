@@ -162,4 +162,9 @@ cython_debug/
 
 # files in uploads/
 uploads/*
+
+# dummy files from dev
 dummy_input_data_manual.csv
+
+# vs code
+.DS_Store
