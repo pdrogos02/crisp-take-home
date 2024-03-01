@@ -22,7 +22,7 @@ console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(log_formatter)
 app.logger.addHandler(console_handler)
 
-app.config.from_object('flask_config')
+app.config.from_object('flask_config.DevelopmentConfig')
 
 #TODO add in exception handling for two API endpoints
 
