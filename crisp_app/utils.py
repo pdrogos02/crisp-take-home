@@ -30,8 +30,8 @@ def create_new_col(raw_df: pd.DataFrame, key: str, value: List[str]) -> pd.DataF
     Returns: 
             raw_df (pd.DataFrame): Pandas DataFrame, raw_df, containing the new column and column value
     """
-    if not any(col in value for col in raw_df.columns):
-        raw_df[key] = ''.join(map(str, value))
+    if not pd.Series(value).isin(raw_df.columns).all():
+        raw_df[key] = ''.join(value)
     
     else:
         raw_df[key] = raw_df[value].astype(str).apply('-'.join, axis=1)
