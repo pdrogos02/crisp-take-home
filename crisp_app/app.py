@@ -3,10 +3,9 @@ import os, shutil
 from flask import Flask, render_template, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
-from utils import allowed_file
-from crisp_transformation import perform_transformation
+from crisp_app.utils import allowed_file
+from crisp_app.transformation import perform_transformation
 
-# app = Flask(__name__, static_url_path='/static', template_folder='templates')  
 app = Flask(__name__, template_folder='templates')  
 
 app.config.from_object('flask_config')

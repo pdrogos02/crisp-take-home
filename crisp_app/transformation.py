@@ -5,7 +5,7 @@ from decimal import Decimal
 
 import pandas as pd
 
-from utils import get_logger, create_new_col
+from crisp_app.utils import get_logger, create_new_col
 
 from flask import current_app, request
 from werkzeug.utils import secure_filename
