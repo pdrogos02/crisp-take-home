@@ -37,23 +37,21 @@ def perform_transformation():
     
     f = io.StringIO()
 
-    # can use file-like object in memory to avoid saving file
     with redirect_stderr(f):
-        # raw_df = pd.read_csv(request.files.get('input_data_file'), on_bad_lines='warn', encoding='utf8')
         raw_df = pd.read_csv(os.path.join(current_app.config['UPLOAD_FOLDER'], input_data_filename), on_bad_lines='warn')
 
     if f.getvalue():
         logger.warning(f"Reading input data lines - bad line(s): \n{f.getvalue()}")
 
     try:
-        # transformation, step 1: rename cols
-        raw_df = raw_df.rename(columns=config_dict['renamed_cols'])
-
-        # transformation, step 2: create new cols
+        # transformation, step 1: create new target cols
         for key, value in config_dict['new_cols'].items():
             raw_df = create_new_col(raw_df, key, value)
 
-        # transformation, step 3: convert col dtypes
+        # transformation, step 2: rename target cols
+        raw_df = raw_df.rename(columns=config_dict['renamed_cols'])
+
+        # transformation, step 3: convert target cols' dtypes
         for key, value in config_dict['dtype_cols'].items():
             if 'int' in key or 'str' in key:
                 raw_df[value] = raw_df[value].astype(key)
@@ -64,12 +62,12 @@ def perform_transformation():
             elif 'decimal' in key:
                 raw_df[value] = raw_df[value].astype(str).apply(lambda x: x.str.replace(',', "")).apply(lambda x: x.apply(Decimal))
 
-        # 4) transformation, step 4: manipulate str col dtypes
+        # 4) transformation, step 4: manipulate str dtype target cols
         for key, value in config_dict['str_dtype_cols_manipulation'].items():
             if 'proper_case' in key:
                 raw_df[value] = raw_df[value].apply(lambda x: x.str.title())
 
-        # final df displayed as html
+        # transformation, step 5: select target cols
         transformed_df = raw_df[['OrderId', 'OrderDate', 'ProductId', 'ProductName', 'Quantity', 'Unit']]
 
     except Exception as e:

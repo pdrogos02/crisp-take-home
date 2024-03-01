@@ -75,8 +75,6 @@ def transform():
 
                 fp.write(chunk)
 
-        #TODO need to modularize below code 
-        # beginning of transformation code
         raw_df_shape, transformed_df = perform_transformation()
 
         return render_template('output.html', input_data_file_name=input_data_filename, crisp_config_yaml_file_name=crisp_config_yaml_filename, input_data_file_shape=raw_df_shape, data=transformed_df.head(20).to_html(), transformed_data_shape=transformed_df.shape)
