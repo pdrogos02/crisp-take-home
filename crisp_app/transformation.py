@@ -16,11 +16,13 @@ def perform_transformation() -> tuple[tuple[int, int], pd.DataFrame]:
     Returns the shape (rows, columns) of the raw_df Pandas Dataframe
     and the transformed_df Pandas DataFrame.
 
-    Parameters: None
+    Parameters: 
+            None
 
-    Returns: raw_df.shape, transformed_df (tuple): a tuple containing
-             1) the shape of raw_df
-             2) Pandas DataFrame, transformed_df 
+    Returns: 
+            raw_df.shape, transformed_df (tuple): a tuple containing
+            1) the shape of raw_df
+            2) Pandas DataFrame, transformed_df 
     """
     crisp_config_yaml_file = request.files['crisp_config_yaml_file']
         
