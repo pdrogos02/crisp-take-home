@@ -2,7 +2,7 @@ import io, yaml, os
 
 from contextlib import redirect_stderr
 from decimal import Decimal
-
+from typing import T
 import pandas as pd
 
 from flask import current_app, request
@@ -11,7 +11,17 @@ from werkzeug.utils import secure_filename
 from utils import create_new_col
 
 
-def perform_transformation():
+def perform_transformation() -> tuple[tuple[int, int], pd.DataFrame]:
+    """
+    Returns the shape (rows, columns) of the raw_df Pandas Dataframe
+    and the transformed_df Pandas DataFrame.
+
+    Parameters: None
+
+    Returns: raw_df.shape, transformed_df (tuple): a tuple containing
+             1) the shape of raw_df
+             2) Pandas DataFrame, transformed_df 
+    """
     crisp_config_yaml_file = request.files['crisp_config_yaml_file']
         
     crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
@@ -62,7 +72,7 @@ def perform_transformation():
                 raw_df[value] = raw_df[value].apply(lambda x: x.str.title())
 
         # transformation, step 5: select target cols
-        transformed_df = raw_df[['OrderId', 'OrderDate', 'ProductId', 'ProductName', 'Quantity', 'Unit']]
+        transformed_df = raw_df[config_dict['select_cols']]
 
     except Exception as e:
         current_app.logger.error(f"Error in transforming data: {e}")

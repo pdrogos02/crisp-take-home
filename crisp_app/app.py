@@ -33,6 +33,20 @@ def index():
 # TODO: add exception handling
 @app.route('/transform', methods=['GET', 'POST'])
 def transform():
+    """
+    Display transformed results (by uploading an 
+    input data .csv and a config .yml).
+    ---
+    responses:
+        200 (GET): Successfully display page for uploading input data files.
+        description: 
+        200 (POST):
+        description: Successfully return transformation results.
+        400:
+        description: Bad request.
+        500:
+        description: Internal Server Error: Error in Flask Application code. 
+    """
     # error = None
     if request.method == 'POST':
         # # check if post request uploaded input files
