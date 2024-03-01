@@ -1,5 +1,5 @@
 ---
-# renamed_cols defined by source_col_name: target_col_name
+# renamed_cols defined by key:value pairs, source_col_name: target_col_name
 renamed_cols:
   Order Number: OrderId
   Product Number: ProductId

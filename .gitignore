@@ -162,3 +162,4 @@ cython_debug/
 
 # files in uploads/
 uploads/*
+dummy_input_data_manual.csv
