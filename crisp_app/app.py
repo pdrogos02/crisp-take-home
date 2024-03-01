@@ -22,7 +22,7 @@ def transform():
     # error = None
     if request.method == 'POST':
         # # check if post request uploaded input files
-        # if 'input_data_file' not in request.files or 'config_yaml_file' not in request.files:
+        # if 'input_data_file' not in request.files or 'crisp_config_yaml_file' not in request.files:
         #     flash('File upload did not send both input files', 'error')
         #     # return redirect(request.url)
         #     return redirect(url_for('transform'))
