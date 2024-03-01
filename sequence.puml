@@ -1,7 +1,7 @@
 @startuml
-Client -> Server: POST /transform, request
-Server -> Application: perform_transformation()
-Application --> Server: return results
-Server --> Client: 200 OK response, display output
+Client -> "Server (Flask)": POST /transform request (upload data and config)
+"Server (Flask)"-> "transformation.py": perform_transformation(data, config)
+"transformation.py" --> "Server (Flask)": return results
+"Server (Flask)" --> Client: 200 OK response, display results
 
 @enduml
