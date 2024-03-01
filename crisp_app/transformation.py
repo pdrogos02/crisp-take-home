@@ -5,19 +5,13 @@ from decimal import Decimal
 
 import pandas as pd
 
-from utils import get_logger, create_new_col
-
 from flask import current_app, request
 from werkzeug.utils import secure_filename
 
+from utils import create_new_col
+
 
 def perform_transformation():
-    try:
-        logger = get_logger()
-
-    except Exception as e:
-        raise e
-
     crisp_config_yaml_file = request.files['crisp_config_yaml_file']
         
     crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
@@ -31,7 +25,7 @@ def perform_transformation():
             config_dict = yaml.safe_load(file)
 
     except Exception as e:
-        logger.error(f'Unable to read in config file: {e}')
+        current_app.logger.error(f'Unable to read in config file: {e}')
 
         raise e
     
@@ -41,7 +35,7 @@ def perform_transformation():
         raw_df = pd.read_csv(os.path.join(current_app.config['UPLOAD_FOLDER'], input_data_filename), on_bad_lines='warn')
 
     if f.getvalue():
-        logger.warning(f"Reading input data lines - bad line(s): \n{f.getvalue()}")
+        current_app.logger.warning(f"Reading input data lines - bad line(s): \n{f.getvalue()}")
 
     try:
         # transformation, step 1: create new target cols
@@ -71,7 +65,7 @@ def perform_transformation():
         transformed_df = raw_df[['OrderId', 'OrderDate', 'ProductId', 'ProductName', 'Quantity', 'Unit']]
 
     except Exception as e:
-        logger.error(f"Error in transforming data: {e}")
+        current_app.logger.error(f"Error in transforming data: {e}")
 
         raise e
     

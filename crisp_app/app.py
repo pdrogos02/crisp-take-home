@@ -1,4 +1,6 @@
-import os, shutil
+import os, shutil, logging, sys
+
+from logging.handlers import RotatingFileHandler
 
 from flask import Flask, render_template, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -6,7 +8,19 @@ from werkzeug.utils import secure_filename
 from utils import allowed_file
 from transformation import perform_transformation
 
+
 app = Flask(__name__, template_folder='templates')  
+
+app.logger.setLevel(logging.INFO)
+log_formatter = logging.Formatter("%(asctime)s|%(name)s|%(levelname)s|%(message)s")
+# 10 MiB = 10.485M bytes (10*1024*1024)
+rotating_file_handler = RotatingFileHandler('crisp_app.log', maxBytes=10*1024*1024, backupCount=5)
+rotating_file_handler.setFormatter(log_formatter)
+app.logger.addHandler(rotating_file_handler)
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(log_formatter)
+app.logger.addHandler(console_handler)
 
 app.config.from_object('flask_config')
 
@@ -73,7 +87,7 @@ def transform():
                     break
 
                 fp.write(chunk)
-
+             
         raw_df_shape, transformed_df = perform_transformation()
 
         return render_template('output.html', input_data_file_name=input_data_filename, crisp_config_yaml_file_name=crisp_config_yaml_filename, input_data_file_shape=raw_df_shape, data=transformed_df.head(20).to_html(), transformed_data_shape=transformed_df.shape)
