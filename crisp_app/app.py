@@ -22,35 +22,35 @@ def transform():
     # error = None
     if request.method == 'POST':
         # # check if post request uploaded input files
-        # if 'input_data_file' not in request.files or 'crisp_config_yaml_file' not in request.files:
-        #     flash('File upload did not send both input files', 'error')
-        #     # return redirect(request.url)
-        #     return redirect(url_for('transform'))
-        #     # error = 'File upload did not send both input files'
-        #     # return redirect(url_for('transform.html'))
-        #     # return render_template('transform.html')
+        if 'input_data_file' not in request.files or 'crisp_config_yaml_file' not in request.files:
+            flash('File upload did not send both input files', 'error')
+
+            return redirect(url_for('transform'))
 
         input_data_file = request.files["input_data_file"]
 
         crisp_config_yaml_file = request.files['crisp_config_yaml_file']
         
+        # check if both files were uploaded
         if input_data_file.filename == '' or crisp_config_yaml_file.filename == '':
             flash('Two files needed for upload', 'error')
             
             return redirect(url_for('transform'))
-                
+        
+        # check if input data file extension is .csv
         if not allowed_file(input_data_file.filename, ['csv']):
             flash('Incorrect file extension uploaded. Select new file with extension .csv.', 'error')
 
             return redirect(url_for('transform'))
         
+        # check if input config file extension is .yaml or .yml
         if not allowed_file(crisp_config_yaml_file.filename, ['yaml', 'yml']):
             flash("Incorrect file extension uploaded. Select new file with extension .yml or .yaml.", 'error')
 
             return redirect(url_for('transform'))
         
+        # delete UPLOAD FOLDER and its contents from prior request
         if os.path.exists(app.config['UPLOAD_FOLDER']):
-            # delete UPLOAD FOLDER and its contents from prior request
             shutil.rmtree(app.config['UPLOAD_FOLDER'])
 
         # create UPLOAD_FOLDER to store request contents

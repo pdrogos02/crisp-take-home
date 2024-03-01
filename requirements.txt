@@ -2,3 +2,4 @@ pandas
 flask
 pyyaml
 werkzeug
+pytest

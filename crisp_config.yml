@@ -1,7 +1,7 @@
 ---
 # renamed_cols defined by key:value pairs, source_col_name: target_col_name
 renamed_cols:
-  Order Number: OrderId
+  Order Number: OrderID
   Product Number: ProductId
   Product Name: ProductName
   Count: Quantity
@@ -18,7 +18,7 @@ new_cols:
 # data types of target cols
 dtype_cols:
   int:
-    - OrderId
+    - OrderID
   
   str:
     - ProductId              
