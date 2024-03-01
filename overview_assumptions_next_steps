@@ -2,7 +2,7 @@ Overview, Assumptions, Simplications, Next Steps
 ---------------------------------------------------
 Overview
 ---------------
-This take-home assessment is a web application developed in the Python programming language using the Flask web framework as a development server. The client-side part of the web app is written in HTML and CSS scripting languages and Jinja templating language to format the layout of webpages. The server-side of the web app is composed of two REST API endpoints that receive client requests for access to a homepage and transformation of uploaded input data (per the take-home assessment requirements). In addition to Python, the server-side of the web app uses the Pandas tool for transformation data wrangling and data manipulation. Logging on the back-end is performed in Python, and logs are rotated according to a maximum size (approximately 10 MB).
+This take-home assessment is a web application developed in the Python programming language using the Flask web framework as a development server. The client-side part of the web app is written in HTML and CSS scripting languages and Jinja templating language to format the layout of webpages. The server-side of the web app is composed of two REST API endpoints that receive client requests for access to a homepage and transformation of uploaded input data. Additionally, the server-side uses the Pandas tool for transformation data wrangling and data manipulation.
 
 Assumptions
 ---------------
