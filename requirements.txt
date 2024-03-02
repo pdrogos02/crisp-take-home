@@ -2,6 +2,3 @@ pandas
 flask
 pyyaml
 werkzeug
-pytest
-coverage
-build
