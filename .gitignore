@@ -127,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.crisp_app_venv
 
 # Spyder project settings
 .spyderproject
@@ -158,3 +159,32 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# files in uploads/
+uploads/*
+
+# dummy files from dev
+dummy_input_data_manual.csv
+crisp_config.yml
+
+docs/crisp_take_home_project_notes
+
+# vs code
+.DS_Store
+out/*
+
+# Flask
+.venv/
+
+*.pyc
+__pycache__/
+
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+dist/
+build/
+*.egg-info/

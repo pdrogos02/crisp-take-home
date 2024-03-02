@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>Transformed Output - Crisp App</title>
+</head>
+<body>
+    <p>Input data file dimensions (rows, columns): {{input_data_file_shape}}</p> 
+    <p>Transformed data dimensions (rows, columns): {{transformed_data_shape}}</p>
+    <h2>First 20 results from transformed data</h2>
+    {% block content %}
+    {{data | safe}}
+    {% endblock %}
+</body>
+</html>
