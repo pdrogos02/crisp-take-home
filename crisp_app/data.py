@@ -6,8 +6,13 @@ from flask import (
 
 from werkzeug.utils import secure_filename
 
-from crisp_app.transformation import perform_transformation, read_input_data, read_input_config
-
+from crisp_app.transformation import (
+    read_input_data, read_input_config,
+    create_target_cols, rename_target_cols, 
+    convert_target_cols_dtypes, 
+    manipulate_str_dtype_target_cols, 
+    select_target_cols
+)
 bp = Blueprint('data', __name__, url_prefix='/data')
 
 @bp.route('/transform', methods=['GET', 'POST'])
@@ -35,9 +40,17 @@ def transform():
 
         raw_df = read_input_data(os.path.join(current_app.config['UPLOAD_FOLDER'], input_data_filename))
         
-        raw_df_shape, transformed_df = perform_transformation(config_dict, raw_df)
+        raw_df = create_target_cols(config_dict, raw_df)
+
+        raw_df = rename_target_cols(config_dict, raw_df)
         
-        return render_template('data/output.html', input_data_file_shape=raw_df_shape, transformed_data_shape=transformed_df.shape, data=transformed_df.head(20).to_html())
+        raw_df = convert_target_cols_dtypes(config_dict, raw_df)
+
+        raw_df = manipulate_str_dtype_target_cols(config_dict, raw_df)
+
+        transformed_df = select_target_cols(config_dict, raw_df)
+        
+        return render_template('data/output.html', input_data_file_shape=raw_df.shape, transformed_data_shape=transformed_df.shape, data=transformed_df.head(20).to_html())
 
     else:
         crisp_config_yaml_filename = ''.join([file_name for file_name in os.listdir(current_app.config['UPLOAD_FOLDER']) if '.yml' in file_name or '.yaml' in file_name])

@@ -3,7 +3,7 @@ import io, yaml, os
 from contextlib import redirect_stderr
 from decimal import Decimal
 import pandas as pd
-from typing import Dict
+from typing import Dict, List
 from flask import current_app
 
 from crisp_app.utils import create_new_col
@@ -44,28 +44,48 @@ def read_input_data(input_data_file_path: str) -> pd.DataFrame:
 
     return raw_df
 
-def perform_transformation(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> tuple[tuple[int, int], pd.DataFrame]:
+def create_target_cols(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Returns the shape (rows, columns) of the raw_df Pandas Dataframe
-    and the transformed_df Pandas DataFrame.
+    Returns Pandas Dataframe, raw_df, with new target columns
 
     Parameters: 
             config_dict (Dict[str, dict]): a dict containing transformation config key:value pairs
             raw_df (pd.DataFrame): a Pandas DataFrame containing raw data from uploaded input data file
 
     Returns: 
-            raw_df.shape, transformed_df (tuple): a tuple containing
-            1) the shape of raw_df
-            2) Pandas DataFrame, transformed_df 
+            raw_df (pd.DataFrame): Pandas DataFrame, raw_df 
     """
-    # transformation, step 1: create new target cols
     for key, value in config_dict['new_cols'].items():
         raw_df = create_new_col(raw_df, key, value)
 
-    # transformation, step 2: rename target cols
+    return raw_df
+
+def rename_target_cols(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns Pandas Dataframe, raw_df, with renamed target columns
+
+    Parameters: 
+            config_dict (Dict[str, dict]): a dict containing transformation config key:value pairs
+            raw_df (pd.DataFrame): a Pandas DataFrame containing raw data from uploaded input data file
+
+    Returns: 
+            raw_df (pd.DataFrame): Pandas DataFrame, raw_df 
+    """
     raw_df = raw_df.rename(columns=config_dict['renamed_cols'])
 
-    # transformation, step 3: convert target cols' dtypes
+    return raw_df
+
+def convert_target_cols_dtypes(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns Pandas Dataframe, raw_df, with converted target columns' dtypes
+
+    Parameters: 
+            config_dict (Dict[str, dict]): a dict containing transformation config key:value pairs
+            raw_df (pd.DataFrame): a Pandas DataFrame containing raw data from uploaded input data file
+
+    Returns: 
+            raw_df (pd.DataFrame): Pandas DataFrame, raw_df 
+    """
     for key, value in config_dict['dtype_cols'].items():
         if 'int' in key or 'str' in key:
             raw_df[value] = raw_df[value].astype(key)
@@ -76,12 +96,36 @@ def perform_transformation(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -
         elif 'decimal' in key:
             raw_df[value] = raw_df[value].astype(str).apply(lambda x: x.str.replace(',', "")).apply(lambda x: x.apply(Decimal))
 
-    # 4) transformation, step 4: manipulate str dtype target cols
+    return raw_df
+
+def manipulate_str_dtype_target_cols(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns Pandas Dataframe, raw_df, with manipulated str dtype target cols
+
+    Parameters: 
+            config_dict (Dict[str, dict]): a dict containing transformation config key:value pairs
+            raw_df (pd.DataFrame): a Pandas DataFrame containing raw data from uploaded input data file
+
+    Returns: 
+            raw_df (pd.DataFrame): Pandas DataFrame, raw_df 
+    """
     for key, value in config_dict['str_dtype_cols_manipulation'].items():
         if 'proper_case' in key:
             raw_df[value] = raw_df[value].apply(lambda x: x.str.title())
 
-    # transformation, step 5: select target cols
+    return raw_df
+
+def select_target_cols(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns Pandas Dataframe, transformed_df, with selected target columns from raw_df
+
+    Parameters: 
+            config_dict (Dict[str, dict]): a dict containing transformation config key:value pairs
+            raw_df (pd.DataFrame): a Pandas DataFrame containing raw data from uploaded input data file
+
+    Returns: 
+            transformed_df (pd.DataFrame): Pandas DataFrame, transformed_df 
+    """
     transformed_df = raw_df[config_dict['select_cols']]
     
-    return raw_df.shape, transformed_df
+    return transformed_df
