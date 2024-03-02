@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='crisp-app',
     version='1.0.0',
-    description='app that transforms per uploaded input data and config file',
+    description='Crisp take-home assessment app that transforms uploaded input data using a config file',
     author='Peter Phyall',
     author_email='pdrogos02@gmail.com',
     packages=find_packages(where="src"),

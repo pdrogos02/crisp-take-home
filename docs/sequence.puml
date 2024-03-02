@@ -2,7 +2,7 @@
 Client -> Server: POST /file/upload request (upload data and config)
 Server --> Client: 200 OK response, success upload message
 Client -> Server: POST /data/transform request (transform data)
-Server -> "transformation.py": perform_transformation(data, config)
+Server -> "transformation.py": perform transformation manipulation using data and config
 "transformation.py" --> Server: return transformed results
 Server --> Client: 200 OK response, display transformed results
 @enduml

@@ -171,6 +171,7 @@ docs/crisp_take_home_project_notes
 
 # vs code
 .DS_Store
+out/*
 
 # Flask
 .venv/
