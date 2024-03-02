@@ -1,3 +1,5 @@
+# from crisp_app.app import create_app
+
 def test_home_page_with_fixture(test_client):
     """
     Given a Flask application configured for testing

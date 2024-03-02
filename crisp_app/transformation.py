@@ -2,83 +2,86 @@ import io, yaml, os
 
 from contextlib import redirect_stderr
 from decimal import Decimal
-from typing import T
 import pandas as pd
+from typing import Dict
+from flask import current_app
 
-from flask import current_app, request
-from werkzeug.utils import secure_filename
+from crisp_app.utils import create_new_col
 
-from utils import create_new_col
+def read_input_config(input_config_file_path: str) -> Dict[str, dict]:
+    """
+    Returns a dict containing key:value pairs from the uploaded input config .yaml file.
+
+    Parameters: 
+            input_config_file_path (str): the file path of the uploaded input config .yaml
+
+    Returns: 
+            config_dict (Dict[str, dict]): a dict containing config file key:value pairs
+    """
+    with open(input_config_file_path, "r") as file:
+        config_dict = yaml.safe_load(file)
+    
+    return config_dict
 
 
-def perform_transformation() -> tuple[tuple[int, int], pd.DataFrame]:
+def read_input_data(input_data_file_path: str) -> pd.DataFrame:    
+    """
+    Returns a Pandas Dataframe containing raw data from the uploaded input data .csv file.
+
+    Parameters: 
+            input_data_file_path (str): the file path of the uploaded input data .csv file
+
+    Returns: 
+            raw_df (pd.DataFrame): a Pandas DataFrame of the raw data from the uploaded input data .csv file
+    """
+    f = io.StringIO()
+
+    with redirect_stderr(f):
+        raw_df = pd.read_csv(input_data_file_path, on_bad_lines='warn')
+
+    if f.getvalue():
+        current_app.logger.warning(f"Reading input data lines - bad line(s): \n{f.getvalue()}")
+
+    return raw_df
+
+def perform_transformation(config_dict: Dict[str, dict], raw_df: pd.DataFrame) -> tuple[tuple[int, int], pd.DataFrame]:
     """
     Returns the shape (rows, columns) of the raw_df Pandas Dataframe
     and the transformed_df Pandas DataFrame.
 
     Parameters: 
-            None
+            config_dict (Dict[str, dict]): a dict containing transformation config key:value pairs
+            raw_df (pd.DataFrame): a Pandas DataFrame containing raw data from uploaded input data file
 
     Returns: 
             raw_df.shape, transformed_df (tuple): a tuple containing
             1) the shape of raw_df
             2) Pandas DataFrame, transformed_df 
     """
-    crisp_config_yaml_file = request.files['crisp_config_yaml_file']
+    # transformation, step 1: create new target cols
+    for key, value in config_dict['new_cols'].items():
+        raw_df = create_new_col(raw_df, key, value)
+
+    # transformation, step 2: rename target cols
+    raw_df = raw_df.rename(columns=config_dict['renamed_cols'])
+
+    # transformation, step 3: convert target cols' dtypes
+    for key, value in config_dict['dtype_cols'].items():
+        if 'int' in key or 'str' in key:
+            raw_df[value] = raw_df[value].astype(key)
         
-    crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
+        elif 'datetime' in key:
+            raw_df[value] = raw_df[value].apply(pd.to_datetime)
 
-    input_data_file = request.files["input_data_file"]
+        elif 'decimal' in key:
+            raw_df[value] = raw_df[value].astype(str).apply(lambda x: x.str.replace(',', "")).apply(lambda x: x.apply(Decimal))
 
-    input_data_filename = secure_filename(input_data_file.filename)
+    # 4) transformation, step 4: manipulate str dtype target cols
+    for key, value in config_dict['str_dtype_cols_manipulation'].items():
+        if 'proper_case' in key:
+            raw_df[value] = raw_df[value].apply(lambda x: x.str.title())
 
-    try:
-        with open(os.path.join(current_app.config['UPLOAD_FOLDER'], crisp_config_yaml_filename), "r") as file:
-            config_dict = yaml.safe_load(file)
-
-    except Exception as e:
-        current_app.logger.error(f'Unable to read in config file: {e}')
-
-        raise e
-    
-    f = io.StringIO()
-
-    with redirect_stderr(f):
-        raw_df = pd.read_csv(os.path.join(current_app.config['UPLOAD_FOLDER'], input_data_filename), on_bad_lines='warn')
-
-    if f.getvalue():
-        current_app.logger.warning(f"Reading input data lines - bad line(s): \n{f.getvalue()}")
-
-    try:
-        # transformation, step 1: create new target cols
-        for key, value in config_dict['new_cols'].items():
-            raw_df = create_new_col(raw_df, key, value)
-
-        # transformation, step 2: rename target cols
-        raw_df = raw_df.rename(columns=config_dict['renamed_cols'])
-
-        # transformation, step 3: convert target cols' dtypes
-        for key, value in config_dict['dtype_cols'].items():
-            if 'int' in key or 'str' in key:
-                raw_df[value] = raw_df[value].astype(key)
-            
-            elif 'datetime' in key:
-                raw_df[value] = raw_df[value].apply(pd.to_datetime)
-
-            elif 'decimal' in key:
-                raw_df[value] = raw_df[value].astype(str).apply(lambda x: x.str.replace(',', "")).apply(lambda x: x.apply(Decimal))
-
-        # 4) transformation, step 4: manipulate str dtype target cols
-        for key, value in config_dict['str_dtype_cols_manipulation'].items():
-            if 'proper_case' in key:
-                raw_df[value] = raw_df[value].apply(lambda x: x.str.title())
-
-        # transformation, step 5: select target cols
-        transformed_df = raw_df[config_dict['select_cols']]
-
-    except Exception as e:
-        current_app.logger.error(f"Error in transforming data: {e}")
-
-        raise e
+    # transformation, step 5: select target cols
+    transformed_df = raw_df[config_dict['select_cols']]
     
     return raw_df.shape, transformed_df

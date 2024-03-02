@@ -1,3 +1,4 @@
+from crisp_app import create_app
 import os, shutil, logging, sys
 
 from logging.handlers import RotatingFileHandler
@@ -5,8 +6,8 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask, render_template, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
-from utils import allowed_file
-from transformation import perform_transformation
+from crisp_app.utils import allowed_file
+from crisp_app.transformation import perform_transformation
 
 
 app = Flask(__name__, template_folder='templates')  
@@ -22,7 +23,7 @@ console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(log_formatter)
 app.logger.addHandler(console_handler)
 
-app.config.from_object('flask_config.DevelopmentConfig')
+app.config.from_object('crisp_app.flask_config.DevelopmentConfig')
 
 #TODO add in exception handling for two API endpoints
 
