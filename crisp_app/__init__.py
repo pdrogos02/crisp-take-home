@@ -19,7 +19,7 @@ def create_app(test_config=None):
     console_handler.setFormatter(log_formatter)
     app.logger.addHandler(console_handler)
 
-    # prior to executing app
+    # NOTE: prior to executing app
     # "flask --app crisp_app run"
     # export the following environment variable, CONFIG_CLASS via the terminal using
     # "export FLASK_ENV=<environment>"
