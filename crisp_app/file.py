@@ -26,6 +26,8 @@ def upload():
         500:
         description: Internal Server Error: Error in Flask Application code. 
     """
+    print(current_app.config)
+    
     if request.method == 'POST':
         # # check if post request uploaded input files
         if 'input_data_file' not in request.files or 'crisp_config_yaml_file' not in request.files:

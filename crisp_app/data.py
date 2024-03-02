@@ -27,13 +27,9 @@ def transform():
         description: Internal Server Error: Error in Flask Application code. 
     """
     if request.method == 'POST':
-        crisp_config_yaml_file = request.files['crisp_config_yaml_file']
-            
-        crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
+        crisp_config_yaml_filename = ''.join([file_name for file_name in os.listdir(current_app.config['UPLOAD_FOLDER']) if '.yml' in file_name or '.yaml' in file_name])
 
-        input_data_file = request.files["input_data_file"]
-
-        input_data_filename = secure_filename(input_data_file.filename)
+        input_data_filename = ''.join([file_name for file_name in os.listdir(current_app.config['UPLOAD_FOLDER']) if '.csv' in file_name])
 
         config_dict = read_input_config(os.path.join(current_app.config['UPLOAD_FOLDER'], crisp_config_yaml_filename))
 
@@ -44,12 +40,8 @@ def transform():
         return render_template('data/output.html', input_data_file_shape=raw_df_shape, transformed_data_shape=transformed_df.shape, data=transformed_df.head(20).to_html())
 
     else:
-        crisp_config_yaml_file = request.files['crisp_config_yaml_file']
-            
-        crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
+        crisp_config_yaml_filename = ''.join([file_name for file_name in os.listdir(current_app.config['UPLOAD_FOLDER']) if '.yml' in file_name or '.yaml' in file_name])
 
-        input_data_file = request.files["input_data_file"]
-
-        input_data_filename = secure_filename(input_data_file.filename)
+        input_data_filename = ''.join([file_name for file_name in os.listdir(current_app.config['UPLOAD_FOLDER']) if '.csv' in file_name])
 
         return render_template('data/transform.html', input_data_file_name=input_data_filename, crisp_config_yaml_file_name=crisp_config_yaml_filename)
