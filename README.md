@@ -19,3 +19,16 @@ Verify the installation was successful by showing the list of pip-installed pack
 ```
 pip list | grep crisp-app
 ```
+
+## Tutorial
+To run the app, first clone the git repo using the following commands:
+
+```
+
+```
+
+ export the environment variable, `FLASK_ENV`. Since this app will not run in production, it is sufficient to use "development". See below
+
+```
+export FLASK_ENV=development
+```
