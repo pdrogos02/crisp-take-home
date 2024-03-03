@@ -128,6 +128,7 @@ ENV/
 env.bak/
 venv.bak/
 .crisp_app_venv
+.test_venv
 
 # Spyder project settings
 .spyderproject
