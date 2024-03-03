@@ -1,0 +1,47 @@
+---
+# renamed_cols defined by key:value pairs, source_col_name: target_col_name
+renamed_cols:
+  Order Number: OrderID
+  Product Number: ProductId
+  Product Name: ProductName
+  Count: Quantity
+
+# created target cols
+new_cols:
+  Unit: 
+    - kg
+  OrderDate:
+    - Year
+    - Month
+    - Day
+
+# data types of target cols
+dtype_cols:
+  int:
+    - OrderID
+  
+  str:
+    - ProductId              
+    - ProductName
+    - Unit
+  
+  decimal:
+    - Quantity
+
+  datetime:
+    - OrderDate
+
+# str target cols manipulations
+str_dtype_cols_manipulation:
+  proper_case:
+    - ProductName
+
+# select target cols
+select_cols:
+  - OrderID
+  - OrderDate
+  - ProductId
+  - ProductName
+  - Quantity
+  - Unit
+
