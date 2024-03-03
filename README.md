@@ -1,6 +1,6 @@
 # crisp-take-home
 ## Overview
-The crisp-app is a web application developed in the Python programming language (3.11) using the Flask web framework as a development server. The crisp-app is built using requirements outlined in a Crisp take-home assessment. The client-side part of the web app is written in HTML and CSS scripting languages and Jinja templating language to format the layout of webpages. The server-side of the web app is composed of three REST API endpoints that receive client requests in order to: 1) access a homepage, 2) upload input files, and 3) transform uploaded input data. Additionally, the server-side uses the Pandas (2.2.1) tool for transformation data wrangling and data manipulation. A simplified sequence diagram for typical crisp-app requests is included below.
+The crisp-app is a web application developed in the Python programming language (3.11) using the Flask web framework as a development server. The crisp-app is built using requirements outlined in a [Crisp take-home assessment](docs/crisp_take_home_assessment.pdf). The client-side part of the web app is written in HTML and CSS scripting languages and Jinja templating language to format the layout of webpages. The server-side of the web app is composed of three REST API endpoints that receive client requests in order to: 1) access a homepage, 2) upload input files, and 3) transform uploaded input data. Additionally, the server-side uses the Pandas (2.2.1) tool for transformation data wrangling and data manipulation. A simplified sequence diagram for typical crisp-app requests is included below.
 
 ![alt text](docs/.png/sequence.png)
 
@@ -8,13 +8,13 @@ The crisp-app is a web application developed in the Python programming language 
 The crisp-app requires Python 3.11 or higher.
 
 ## Installing
-Open up a terminal window and clone the `main` branch of the git [repo](https://github.com/pdrogos02/crisp-take-home/tree/main) (public) using the following command:
+Open up a terminal window and clone the `main` branch of the [git repo](https://github.com/pdrogos02/crisp-take-home/tree/main) (public) using the following command:
 
 ```
 git clone https://github.com/pdrogos02/crisp-take-home.git
 ```
 
-Once the repo is cloned, download the `crisp-app-1.0.0.tar.gz` .tar file shared in the Google Drive [link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv).
+Once the repo is cloned, download the `crisp-app-1.0.0.tar.gz` .tar file shared in the [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing).
 
 Once downloaded, create a virtual environment using the following command:
 
@@ -82,7 +82,7 @@ To transform data, first upload two input files. To upload two input files, visi
 
 ![alt text](docs/.png/crisp_app_file_upload.png)
 
-The two files needed for uploading are a .csv input file and a .yml/.yaml config file. Both file types are included in the Google Drive [link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv). The crisp-app is not intended to transform data of other file types at this time.
+The two files needed for uploading are a .csv input file and a .yml/.yaml config file. Both file types are included in the [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing). The crisp-app is not intended to transform data of other file types at this time.
 
 Select the appropriate files (and file types) requested. Once complete, click `Upload`. The following message should appear:
 
@@ -103,4 +103,4 @@ Depending on how large the uploaded input data is, there may be a slight delay. 
 
 The input data and transformed data dimensions are displayed along with the first 20 transformed results.
 
-The steps above to upload input files and transform data can be repeated for any of the provided input files in the shared Google Drive [link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv).
+The steps above to upload input files and transform data can be repeated for any of the provided input files in the shared [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing).
