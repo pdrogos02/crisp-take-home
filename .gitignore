@@ -164,9 +164,10 @@ cython_debug/
 # files in uploads/
 uploads/*
 
-# dummy files from dev
+# dummy files from dev, notes
 dummy_input_data_manual.csv
 crisp_config.yml
+crisp_take_home_project_notes
 
 docs/crisp_take_home_project_notes
 
@@ -189,3 +190,4 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
