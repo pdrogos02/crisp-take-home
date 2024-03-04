@@ -8,15 +8,24 @@ The crisp-app is a web application developed in the Python programming language 
 The crisp-app requires Python 3.11 or higher.
 
 ## Installing
+### Clone Git Repo
 Open up a terminal window and clone the `main` branch of the [git repo](https://github.com/pdrogos02/crisp-take-home/tree/main) (public) using the following command:
 
 ```
 git clone https://github.com/pdrogos02/crisp-take-home.git
 ```
 
-Once the repo is cloned, download the `crisp-app-1.0.0.tar.gz` .tar file shared in the [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing).
+### Untar Shared File
+Once the repo is cloned, untar the file named `crisp_app_peter_phyall.tar.gz` (shared in the [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing)) into a separate directory using the following command:
 
-Once downloaded, create a virtual environment using the following command:
+```
+tar -xvf crisp_app_peter_phyall.tar.gz 
+```
+
+(This tar file is a compressed file containing the various test data files and config file needed as inputs to the crisp-app, along with a copy of this README.md and additional documentation.)
+
+### Create Virtual Environment
+Next, create a virtual environment using the following command:
 
 ```
 python -m venv .<name-of-virtual-environment>
@@ -28,7 +37,8 @@ Activate the virtual environment using the following command:
 source .<name-of-virtual-environment>/bin/activate
 ```
 
-Once the virtual environment has been activated, install the .tar file using the following command. (Install with `pip` or your desired package manager.)
+# Install crisp-app Tar
+Once the virtual environment has been activated, install the tar file named `crisp-app-1.0.0.tar.gz` using the following command. (This tar file is found in the directory from the [above untar](#untar-shared-file).) Install `crisp-app-1.0.0.tar.gz` with `pip` or your desired package manager.
 
 ```
 python3.11 -m pip install <local-file-path-to-tar-file>/crisp-app-1.0.0.tar.gz
@@ -82,7 +92,7 @@ To transform data, first upload two input files. To upload two input files, visi
 
 ![alt text](docs/.png/crisp_app_file_upload.png)
 
-The two files needed for uploading are a .csv input file and a .yml/.yaml config file. Both file types are included in the [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing). The crisp-app is not intended to transform data of other file types at this time.
+The two files needed for uploading are a .csv input file and a .yml/.yaml config file. Both file types can be found in the found in the directory from the [above untar](#untar-shared-file). The crisp-app is not intended to transform data of other file types at this time.
 
 Select the appropriate files (and file types) requested. Once complete, click `Upload`. The following message should appear:
 
@@ -103,4 +113,4 @@ Depending on how large the uploaded input data is, there may be a slight delay. 
 
 The input data and transformed data dimensions are displayed along with the first 20 transformed results.
 
-The steps above to upload input files and transform data can be repeated for any of the provided input files in the shared [Google Drive link](https://drive.google.com/drive/folders/1IkJ-MncAc1NvZixKRov4oqZU9xn9CxCv?usp=sharing).
+The steps above to upload input files and transform data can be repeated for any of the provided input files found in the directory from the [above untar](#untar-shared-file).
