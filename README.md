@@ -37,7 +37,7 @@ Activate the virtual environment using the following command:
 source .<name-of-virtual-environment>/bin/activate
 ```
 
-# Install crisp-app Tar
+### Install crisp-app Tar
 Once the virtual environment has been activated, install the tar file named `crisp-app-1.0.0.tar.gz` using the following command. (This tar file is found in the directory from the [above untar](#untar-shared-file).) Install `crisp-app-1.0.0.tar.gz` with `pip` or your desired package manager.
 
 ```
