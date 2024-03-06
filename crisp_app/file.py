@@ -26,8 +26,6 @@ def upload():
         500:
         description: Internal Server Error: Error in Flask Application code. 
     """
-    print(current_app.config)
-    
     if request.method == 'POST':
         # delete UPLOAD FOLDER and its contents from prior request
         if os.path.exists(current_app.config['UPLOAD_FOLDER']):
