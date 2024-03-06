@@ -24,6 +24,8 @@ def create_app(test_config=None):
     # export the following environment variable, CONFIG_CLASS via the terminal using
     # "export FLASK_ENV=<environment>"
     # examples of <environment>: production, development, staging
+    app.config.from_envvar('FLASK_CONFIG')
+
     app.config.from_object(f"config.{os.environ.get('FLASK_ENV').capitalize()}Config")
 
     if test_config is None:
