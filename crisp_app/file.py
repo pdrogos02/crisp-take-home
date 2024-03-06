@@ -29,6 +29,14 @@ def upload():
     print(current_app.config)
     
     if request.method == 'POST':
+        # delete UPLOAD FOLDER and its contents from prior request
+        if os.path.exists(current_app.config['UPLOAD_FOLDER']):
+            shutil.rmtree(current_app.config['UPLOAD_FOLDER'])
+
+        # create UPLOAD_FOLDER to store request contents
+        if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
+            os.makedirs(current_app.config['UPLOAD_FOLDER'])
+
         # # check if post request uploaded input files
         if 'input_data_file' not in request.files or 'crisp_config_yaml_file' not in request.files:
             flash('File upload did not send both input files', 'error')
@@ -56,14 +64,6 @@ def upload():
             flash("Incorrect file extension uploaded. Select new file with extension .yml or .yaml.", 'error')
 
             return redirect(url_for('file.upload'))
-        
-        # delete UPLOAD FOLDER and its contents from prior request
-        if os.path.exists(current_app.config['UPLOAD_FOLDER']):
-            shutil.rmtree(current_app.config['UPLOAD_FOLDER'])
-
-        # create UPLOAD_FOLDER to store request contents
-        if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
-            os.makedirs(current_app.config['UPLOAD_FOLDER'])
 
         crisp_config_yaml_filename = secure_filename(crisp_config_yaml_file.filename)
 
