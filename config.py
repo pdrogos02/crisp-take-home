@@ -1,3 +1,5 @@
+from flask.helpers import get_root_path
+
 class Config(object):
     DEBUG = False
     TESTING = False
@@ -17,3 +19,4 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    ROOT_PATH = get_root_path('crisp-take-home')
