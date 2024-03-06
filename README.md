@@ -4,6 +4,54 @@ The crisp_app is a web application developed in the Python programming language 
 
 ![alt text](docs/.png/sequence.png)
 
+## Directory Structure
+```bash
+.
+├── MIT-LICENSE.txt
+├── README.md
+├── config.py
+├── crisp_app
+│   ├── __init__.py
+│   ├── data.py
+│   ├── file.py
+│   ├── static
+│   │   └── style.css
+│   ├── templates
+│   │   ├── data
+│   │   │   ├── output.html
+│   │   │   └── transform.html
+│   │   ├── file
+│   │   │   ├── success.html
+│   │   │   └── upload.html
+│   │   └── index.html
+│   ├── transformation.py
+│   └── utils.py
+├── data
+│   ├── bad_lines_dummy_file_crisp.csv
+│   └── crisp_config.yml
+├── docs
+│   ├── crisp_app_overview_assumptions.docx
+│   ├── crisp_app_overview_assumptions.pdf
+│   ├── crisp_take_home_assessment.pdf
+│   ├── sequence.png
+│   └── sequence.puml
+├── notebooks
+│   └── crisp_transformation_poc.ipynb
+├── requirements.txt
+├── setup.py
+├── tests
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── functional
+│   │   ├── __init__.py
+│   │   ├── test_data.py
+│   │   └── test_file.py
+│   └── unit
+│       ├── __init__.py
+│       ├── test_transformation.py
+│       └── test_utils.py
+```
+
 ## Compatibility
 The crisp_app requires Python 3.11 or higher.
 
