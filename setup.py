@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='crisp_app',
-    version='1.0.2',
+    version='1.0.1',
     description='Crisp take-home assessment app that transforms uploaded input data using a config file',
     url="https://github.com/pdrogos02/crisp-take-home/",
     author='Peter Phyall',
